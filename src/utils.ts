@@ -159,10 +159,10 @@ declare module "next/link" {
 
 declare module "next/router" {
   import type { Route } from "nextjs-routes";
-  import type { NextRouter as Router } from "next/dist/client/router";
+  import type { NextRouter as UntypedRouter, Router } from "next/dist/client/router";
   export { RouterEvent } from "next/dist/client/router";
 
-  type TransitionOptions = Parameters<Router["push"]>[2];
+  type TransitionOptions = Parameters<UntypedRouter["push"]>[2];
 
   type Pathname = Route["pathname"];
 
@@ -173,7 +173,7 @@ declare module "next/router" {
   type RouteOrQuery = Route | { query: { [key: string]: string | undefined } };
 
   export interface NextRouter<P extends Pathname = Pathname>
-    extends Omit<Router, "push" | "replace"> {
+    extends Omit<UntypedRouter, "push" | "replace"> {
     pathname: P;
     route: P;
     query: QueryForPathname[P];
@@ -190,6 +190,7 @@ declare module "next/router" {
   }
 
   export function useRouter<P extends Pathname>(): NextRouter<P>;
+  export default Router;
 }
 `;
 }
